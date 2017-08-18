@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.cpu11341_local.talktvhometest.MainActivity">
+    tools:context="com.example.cpu11341_local.talktvhometest.MainActivity"
+    android:background="#e5e5e5">
 
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"

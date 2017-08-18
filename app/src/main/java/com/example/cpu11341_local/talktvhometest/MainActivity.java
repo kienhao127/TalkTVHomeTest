@@ -10,13 +10,20 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.cpu11341_local.talktvhometest.data.TabData;
+import com.example.cpu11341_local.talktvhometest.data.doctype;
+
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
     TabLayout tabLayout;
     ViewPager viewPager;
-    String fragments[] = {"Hot", "Mobile", "PC", "Show", "..."};
+    TabData tab[] = {new TabData(1, "Hot", new doctype[]{doctype.BANNER, doctype.HORIZONLIST, doctype.GRIDLIST}),
+            new TabData(2, "Mobile", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
+            new TabData(3, "PC", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
+            new TabData(4, "Show", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
+            new TabData(5, "...", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST})};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         viewPager = (ViewPager) findViewById(R.id.viewPager);
-        viewPager.setOffscreenPageLimit(fragments.length);
+        viewPager.setOffscreenPageLimit(tab.length);
         viewPager.setAdapter(new CustomAdapter(getSupportFragmentManager(), getApplicationContext()));
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
@@ -63,12 +70,12 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            return fragments.length;
+            return tab.length;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
-            return fragments[position];
+            return tab[position].getTitle();
         }
     }
 }
