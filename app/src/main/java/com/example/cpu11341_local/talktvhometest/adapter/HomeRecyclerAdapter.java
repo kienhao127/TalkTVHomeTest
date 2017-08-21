@@ -7,44 +7,64 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.example.bannerview.Banner;
+import com.example.bannerview.BannerView;
 import com.example.cpu11341_local.talktvhometest.R;
-import com.example.cpu11341_local.talktvhometest.data.DocGrid;
+import com.example.cpu11341_local.talktvhometest.data.DocGridWithTitle;
 import com.example.cpu11341_local.talktvhometest.data.DocHorizon;
 
 import java.util.ArrayList;
 
 /**
- * Created by CPU11341-local on 8/18/2017.
+ * Created by CPU11341-local on 8/21/2017.
  */
 
-public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.HorizonRVHolder> {
-    private ArrayList<DocHorizon> arrHorList = new ArrayList<DocHorizon>();
-    private ArrayList<DocGrid> arrDocGrid = new ArrayList<DocGrid>();
-    private static RecyclerView horizontalList;
-    private static RecyclerView gridList;
-
-    public HomeRecyclerAdapter(ArrayList<DocHorizon> arrHorList, ArrayList<DocGrid> arrDocGrid){
-        this.arrHorList = arrHorList;
+public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.FirstRVHolder> {
+    private static ArrayList<DocGridWithTitle> arrDocGrid = new ArrayList<>();
+    private static ArrayList<DocHorizon> arrDocHori = new ArrayList<>();
+    private static ArrayList<Banner> arrBannerItems = new ArrayList<>();
+    private static int tabID;
+    public HomeRecyclerAdapter(int tabID, ArrayList<Banner> arrBannerItems, ArrayList<DocHorizon> arrDocHori, ArrayList<DocGridWithTitle> arrDocGrid){
         this.arrDocGrid = arrDocGrid;
+        this.arrDocHori = arrDocHori;
+        this.arrBannerItems = arrBannerItems;
+        this.tabID = tabID;
     }
 
     @Override
-    public HorizonRVHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public HomeRecyclerAdapter.FirstRVHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         switch (viewType) {
             case 0:{
-                return new GridRVHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.grid_item_layout,parent,false));
+                return new FirstRVHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.first_tab_layout,parent,false));
             }
             default:{
-                return new HorizonRVHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.horlist_item_layout,parent,false));
+                return new OtherRVHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.other_tab_layout,parent,false));
             }
         }
     }
 
     @Override
-    public void onBindViewHolder(HomeRecyclerAdapter.HorizonRVHolder holder, int position) {
-        holder.horizontalAdapter.setData(arrHorList);
-//        holder.gridRecyclerAdapter.setData(arrDocGrid);
+    public void onBindViewHolder(HomeRecyclerAdapter.FirstRVHolder holder, int position) {
+        switch (holder.getItemViewType()) {
+            case 0:
+                FirstRVHolder firstRVHolder = (FirstRVHolder) holder;
+                firstRVHolder.bannerView.addBannerItems(arrBannerItems);
+                firstRVHolder.docHorlistRecyclerAdapter.setData(arrDocHori);
+                firstRVHolder.docGridRecyclerAdapter.setData(arrDocGrid);
+                break;
+            default:
+                OtherRVHolder otherRVHolder = (OtherRVHolder) holder;
+                otherRVHolder.docHorlistRecyclerAdapter.setData(arrDocHori);
+                otherRVHolder.docGridRecyclerAdapter.setData(arrDocGrid);
+                break;
+        }
     }
 
     @Override
@@ -52,32 +72,52 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         return 1;
     }
 
-    public static class HorizonRVHolder extends RecyclerView.ViewHolder{
-        HorlistRecyclerAdapter horlistRecyclerAdapter;
-        private HorlistRecyclerAdapter horizontalAdapter;
+    public static class FirstRVHolder extends RecyclerView.ViewHolder{
+        private BannerView bannerView;
+        private RecyclerView horlistRecyclerView;
+        private RecyclerView gridRecyclerView;
+        private DocHorlistRecyclerAdapter docHorlistRecyclerAdapter;
+        private DocGridRecyclerAdapter docGridRecyclerAdapter;
 
-        public HorizonRVHolder(View view){
+        public FirstRVHolder(View view) {
             super(view);
             Context context = itemView.getContext();
-            horizontalList = (RecyclerView) itemView.findViewById(R.id.recyclerViewHorList);
-            horizontalList.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            horizontalAdapter = new HorlistRecyclerAdapter();
-            horizontalList.setAdapter(horizontalAdapter);
+
+            bannerView = (BannerView) itemView.findViewById(R.id.bannerView);
+            horlistRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerViewHorList);
+            gridRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerViewDocGrid);
+
+            horlistRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            docHorlistRecyclerAdapter = new DocHorlistRecyclerAdapter();
+            horlistRecyclerView.setAdapter(docHorlistRecyclerAdapter);
+
+            gridRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            docGridRecyclerAdapter = new DocGridRecyclerAdapter();
+            gridRecyclerView.setAdapter(docGridRecyclerAdapter);
         }
     }
 
-    public static class GridRVHolder extends HorizonRVHolder {
+    public static class OtherRVHolder extends FirstRVHolder{
+        private RecyclerView horlistRecyclerView;
+        private RecyclerView gridRecyclerView;
+        private DocHorlistRecyclerAdapter docHorlistRecyclerAdapter;
+        private DocGridRecyclerAdapter docGridRecyclerAdapter;
 
-        private GridRecyclerAdapter gridRecyclerAdapter;
-        public GridRVHolder(View view){
+        public OtherRVHolder(View view){
             super(view);
             Context context = itemView.getContext();
-            gridList = (RecyclerView) itemView.findViewById(R.id.recyclerViewGrid);
-            gridList.setLayoutManager(new GridLayoutManager(context, 2));
-            gridRecyclerAdapter = new GridRecyclerAdapter();
-            gridList.setAdapter(gridRecyclerAdapter);
+
+            horlistRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerViewHorList);
+            gridRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerViewDocGrid);
+
+            horlistRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
+            docHorlistRecyclerAdapter = new DocHorlistRecyclerAdapter();
+            horlistRecyclerView.setAdapter(docHorlistRecyclerAdapter);
+
+            gridRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+            gridRecyclerView.setHasFixedSize(true);
+            docGridRecyclerAdapter = new DocGridRecyclerAdapter();
+            gridRecyclerView.setAdapter(docGridRecyclerAdapter);
         }
     }
-
-
 }

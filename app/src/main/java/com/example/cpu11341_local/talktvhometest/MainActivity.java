@@ -10,13 +10,14 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 
+import com.example.bannerview.Banner;
+import com.example.bannerview.BannerView;
 import com.example.cpu11341_local.talktvhometest.data.TabData;
 import com.example.cpu11341_local.talktvhometest.data.doctype;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
-
     TabLayout tabLayout;
     ViewPager viewPager;
     TabData tab[] = {new TabData(1, "Hot", new doctype[]{doctype.BANNER, doctype.HORIZONLIST, doctype.GRIDLIST}),
@@ -24,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
             new TabData(3, "PC", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
             new TabData(4, "Show", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
             new TabData(5, "...", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST})};
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
