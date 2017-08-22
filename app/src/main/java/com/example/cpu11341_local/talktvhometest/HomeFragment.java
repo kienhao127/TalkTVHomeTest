@@ -4,9 +4,11 @@ package com.example.cpu11341_local.talktvhometest;
  * Created by CPU11341-local on 8/17/2017.
  */
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +33,7 @@ public class HomeFragment extends Fragment {
     ArrayList<DocGrid> arrDocGrid;
     ArrayList<DocGridWithTitle> arrDocGridWithTitle;
     ArrayList<Banner> arrBannerItems = new ArrayList<>();
+    Parcelable state;
 
     public static HomeFragment newInstance(int someInt) {
         HomeFragment myFragment = new HomeFragment();
@@ -41,18 +44,26 @@ public class HomeFragment extends Fragment {
 
         return myFragment;
     }
+
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        tabID = getArguments().getInt("someInt");
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.home_fragment,container,false);
-
+        String imgLink = "http://i.imgur.com/BLwlT6v.png";
         arrHorList = new ArrayList<>();
-        arrHorList.add(new DocHorizon(R.drawable.horlist_item_logo, 1, "LOL"));
-        arrHorList.add(new DocHorizon(R.drawable.horlist_item_logo, 1, "88"));
-        arrHorList.add(new DocHorizon(R.drawable.horlist_item_logo, 1, "CFM"));
-        arrHorList.add(new DocHorizon(R.drawable.horlist_item_logo, 1, "99"));
-        arrHorList.add(new DocHorizon(R.drawable.horlist_item_logo, 1, "Liên Quân"));
-        arrHorList.add(new DocHorizon(R.drawable.horlist_item_logo, 1, "69"));
-        arrHorList.add(new DocHorizon(R.drawable.horlist_item_logo, 1, "Khác"));
+        arrHorList.add(new DocHorizon(imgLink, 1, "LOL"));
+        arrHorList.add(new DocHorizon(imgLink, 1, "88"));
+        arrHorList.add(new DocHorizon(imgLink, 1, "CFM"));
+        arrHorList.add(new DocHorizon(imgLink, 1, "99"));
+        arrHorList.add(new DocHorizon(imgLink, 1, "Liên Quân"));
+        arrHorList.add(new DocHorizon(imgLink, 1, "69"));
+        arrHorList.add(new DocHorizon(imgLink, 1, "Khác"));
 
         arrDocGrid = new ArrayList<>();
         arrDocGrid.add(new DocGrid(R.drawable.grid_item, "TalkTV 47", 1));
@@ -73,11 +84,33 @@ public class HomeFragment extends Fragment {
         arrBannerItems.add(new Banner(R.drawable.banner4, "www.facebook.com"));
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewHome);
-        adapter = new HomeRecyclerAdapter(getArguments().getInt("someInt"), arrBannerItems, arrHorList, arrDocGridWithTitle);
+        if (tabID == 0){
+            adapter = new HomeRecyclerAdapter(tabID, arrBannerItems, arrHorList, arrDocGridWithTitle);
+        } else {
+            adapter = new HomeRecyclerAdapter(tabID, arrHorList, arrDocGridWithTitle);
+        }
+
         layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        if (state != null) {
+            layoutManager.onRestoreInstanceState(state);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
+        state = layoutManager.onSaveInstanceState();
+
     }
 }

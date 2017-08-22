@@ -22,10 +22,11 @@ import java.util.ArrayList;
  */
 
 public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapter.FirstRVHolder> {
-    private static ArrayList<DocGridWithTitle> arrDocGrid = new ArrayList<>();
-    private static ArrayList<DocHorizon> arrDocHori = new ArrayList<>();
-    private static ArrayList<Banner> arrBannerItems = new ArrayList<>();
-    private static int tabID;
+    private ArrayList<DocGridWithTitle> arrDocGrid = new ArrayList<>();
+    private ArrayList<DocHorizon> arrDocHori = new ArrayList<>();
+    private ArrayList<Banner> arrBannerItems = new ArrayList<>();
+    private int tabID;
+
     public HomeRecyclerAdapter(int tabID, ArrayList<Banner> arrBannerItems, ArrayList<DocHorizon> arrDocHori, ArrayList<DocGridWithTitle> arrDocGrid){
         this.arrDocGrid = arrDocGrid;
         this.arrDocHori = arrDocHori;
@@ -33,9 +34,15 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
         this.tabID = tabID;
     }
 
+    public HomeRecyclerAdapter(int tabID, ArrayList<DocHorizon> arrDocHori, ArrayList<DocGridWithTitle> arrDocGrid){
+        this.arrDocGrid = arrDocGrid;
+        this.arrDocHori = arrDocHori;
+        this.tabID = tabID;
+    }
+
     @Override
     public int getItemViewType(int position) {
-        return position;
+        return tabID;
     }
 
     @Override
@@ -56,6 +63,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             case 0:
                 FirstRVHolder firstRVHolder = (FirstRVHolder) holder;
                 firstRVHolder.bannerView.addBannerItems(arrBannerItems);
+                firstRVHolder.bannerView.setInfiniteSlide(true);
                 firstRVHolder.docHorlistRecyclerAdapter.setData(arrDocHori);
                 firstRVHolder.docGridRecyclerAdapter.setData(arrDocGrid);
                 break;
@@ -88,7 +96,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             gridRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerViewDocGrid);
 
             horlistRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            docHorlistRecyclerAdapter = new DocHorlistRecyclerAdapter();
+            docHorlistRecyclerAdapter = new DocHorlistRecyclerAdapter(context);
             horlistRecyclerView.setAdapter(docHorlistRecyclerAdapter);
 
             gridRecyclerView.setLayoutManager(new LinearLayoutManager(context));
@@ -111,7 +119,7 @@ public class HomeRecyclerAdapter extends RecyclerView.Adapter<HomeRecyclerAdapte
             gridRecyclerView = (RecyclerView) itemView.findViewById(R.id.recyclerViewDocGrid);
 
             horlistRecyclerView.setLayoutManager(new LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false));
-            docHorlistRecyclerAdapter = new DocHorlistRecyclerAdapter();
+            docHorlistRecyclerAdapter = new DocHorlistRecyclerAdapter(context);
             horlistRecyclerView.setAdapter(docHorlistRecyclerAdapter);
 
             gridRecyclerView.setLayoutManager(new LinearLayoutManager(context));

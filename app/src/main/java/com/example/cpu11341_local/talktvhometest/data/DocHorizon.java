@@ -5,18 +5,18 @@ package com.example.cpu11341_local.talktvhometest.data;
  */
 
 public class DocHorizon {
-    private int imgID;
+    private String imgLink;
     private int action_type;
     private String title;
 
-    public DocHorizon(int imgID, int action_type, String title) {
-        this.imgID = imgID;
+    public DocHorizon(String imgLink, int action_type, String title) {
+        this.imgLink = imgLink;
         this.action_type = action_type;
         this.title = title;
     }
 
-    public int getImgID() {
-        return imgID;
+    public String getImgLink() {
+        return imgLink;
     }
 
     public int getAction_type() {

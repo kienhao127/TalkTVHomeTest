@@ -9,22 +9,29 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 
 import com.example.bannerview.Banner;
 import com.example.bannerview.BannerView;
 import com.example.cpu11341_local.talktvhometest.data.TabData;
 import com.example.cpu11341_local.talktvhometest.data.doctype;
+import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
     TabLayout tabLayout;
     ViewPager viewPager;
-    TabData tab[] = {new TabData(1, "Hot", new doctype[]{doctype.BANNER, doctype.HORIZONLIST, doctype.GRIDLIST}),
-            new TabData(2, "Mobile", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
-            new TabData(3, "PC", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
-            new TabData(4, "Show", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
-            new TabData(5, "...", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST})};
+    TabData tab[] = {new TabData(0, "Hot", new doctype[]{doctype.BANNER, doctype.HORIZONLIST, doctype.GRIDLIST}),
+            new TabData(1, "Mobile", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
+            new TabData(2, "PC", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
+            new TabData(3, "Show", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST}),
+            new TabData(4, "...", new doctype[]{doctype.HORIZONLIST, doctype.GRIDLIST})};
 
 
 
@@ -40,22 +47,22 @@ public class MainActivity extends AppCompatActivity {
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.setupWithViewPager(viewPager);
 
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-        });
+//        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+//            @Override
+//            public void onTabSelected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//            }
+//
+//            @Override
+//            public void onTabUnselected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//            }
+//
+//            @Override
+//            public void onTabReselected(TabLayout.Tab tab) {
+//                viewPager.setCurrentItem(tab.getPosition());
+//            }
+//        });
 
     }
 

@@ -1,5 +1,6 @@
 package com.example.cpu11341_local.talktvhometest.adapter;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,6 +10,10 @@ import android.widget.TextView;
 
 import com.example.cpu11341_local.talktvhometest.R;
 import com.example.cpu11341_local.talktvhometest.data.DocHorizon;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 
 import java.util.ArrayList;
 
@@ -18,12 +23,15 @@ import java.util.ArrayList;
 
 public class DocHorlistRecyclerAdapter extends RecyclerView.Adapter<DocHorlistRecyclerAdapter.RecyclerViewHolder> {
     private ArrayList<DocHorizon> arrHorList = new ArrayList<DocHorizon>();
+    private Context context;
 
-    public DocHorlistRecyclerAdapter(){
+    public DocHorlistRecyclerAdapter(Context context){
+        this.context = context;
     }
 
-    public DocHorlistRecyclerAdapter(ArrayList<DocHorizon> arrHorList){
+    public DocHorlistRecyclerAdapter(Context context, ArrayList<DocHorizon> arrHorList){
         this.arrHorList = arrHorList;
+        this.context = context;
     }
 
     @Override
@@ -37,7 +45,13 @@ public class DocHorlistRecyclerAdapter extends RecyclerView.Adapter<DocHorlistRe
     @Override
     public void onBindViewHolder(DocHorlistRecyclerAdapter.RecyclerViewHolder holder, int position) {
         final DocHorizon docHorizon = arrHorList.get(position);
-        holder.imageViewIcon.setImageResource(docHorizon.getImgID());
+
+        ImageLoader imageLoader = ImageLoader.getInstance();
+        DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder().imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2).build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).defaultDisplayImageOptions(displayImageOptions).build();
+        imageLoader.init(config);
+        imageLoader.displayImage(docHorizon.getImgLink(), holder.imageViewIcon);
+
         holder.textViewTitle.setText(docHorizon.getTitle());
     }
 
