@@ -5,18 +5,18 @@ package com.example.cpu11341_local.talktvhometest.data;
  */
 
 public class DocGrid {
-    private int imageID;
+    private String imageURL;
     private String channelName;
     private int action_type;
 
-    public DocGrid(int imageID, String channelName, int action_type) {
-        this.imageID = imageID;
+    public DocGrid(String imageURL, String channelName, int action_type) {
+        this.imageURL = imageURL;
         this.channelName = channelName;
         this.action_type = action_type;
     }
 
-    public int getImageID() {
-        return imageID;
+    public String getImageURL() {
+        return imageURL;
     }
 
     public String getChannelName() {

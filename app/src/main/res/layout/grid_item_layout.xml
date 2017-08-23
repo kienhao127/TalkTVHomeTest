@@ -6,15 +6,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
         <ImageView
+            android:id="@+id/imageViewThumb"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:src="@drawable/grid_item"/>
+        <ImageView
             android:id="@+id/imageViewLive"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/grid_item"/>
-        <ImageView
-            android:id="@+id/imageViewThumb"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/live_icon"/>
+            android:src="@drawable/live_icon" />
     </RelativeLayout>
     <TextView
         android:id="@+id/textViewChannelName"

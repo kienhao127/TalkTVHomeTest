@@ -1,13 +1,16 @@
 package com.example.cpu11341_local.talktvhometest.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.cpu11341_local.talktvhometest.CategoryDetailActivity;
 import com.example.cpu11341_local.talktvhometest.R;
 import com.example.cpu11341_local.talktvhometest.data.DocGridWithTitle;
 
@@ -38,6 +41,17 @@ public class DocGridRecyclerAdapter extends RecyclerView.Adapter<DocGridRecycler
     public void onBindViewHolder(DocGridRecyclerAdapter.RVHolder holder, int position) {
         holder.gridRecyclerAdapter.setData(arrDocGrid.get(position).getarrDocGrid());
         holder.textView.setText(arrDocGrid.get(position).getTitle());
+        if (arrDocGrid.get(position).getTitle() != "Nổi bật"){
+            holder.imageView.setImageResource(R.mipmap.ic_chervon_right);
+            holder.textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, CategoryDetailActivity.class);
+                    context.startActivity(intent);
+                }
+            });
+        }
     }
 
     @Override
@@ -46,17 +60,18 @@ public class DocGridRecyclerAdapter extends RecyclerView.Adapter<DocGridRecycler
     }
 
     public static class RVHolder extends RecyclerView.ViewHolder{
-//        private HorlistRecyclerAdapter horizontalAdapter;
         private GridRecyclerAdapter gridRecyclerAdapter;
         private TextView textView;
+        private ImageView imageView;
         public RVHolder(View view){
             super(view);
             Context context = itemView.getContext();
 
+            imageView = (ImageView) itemView.findViewById(R.id.imageViewChervonRight);
             textView = (TextView) itemView.findViewById(R.id.textViewTitle);
             gridList = (RecyclerView) itemView.findViewById(R.id.recyclerViewGrid);
             gridList.setLayoutManager(new GridLayoutManager(context, 2));
-            gridRecyclerAdapter = new GridRecyclerAdapter();
+            gridRecyclerAdapter = new GridRecyclerAdapter(context);
             gridList.setAdapter(gridRecyclerAdapter);
         }
     }

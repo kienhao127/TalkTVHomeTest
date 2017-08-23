@@ -1,5 +1,7 @@
 package com.example.cpu11341_local.talktvhometest.adapter;
 
+import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +12,13 @@ import android.widget.TextView;
 import com.example.cpu11341_local.talktvhometest.R;
 import com.example.cpu11341_local.talktvhometest.data.DocGrid;
 import com.example.cpu11341_local.talktvhometest.data.DocHorizon;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.display.CircleBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 
 import java.util.ArrayList;
 
@@ -19,12 +28,15 @@ import java.util.ArrayList;
 
 public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapter.RecyclerViewHolder> {
     private ArrayList<DocGrid> arrGridItem = new ArrayList<DocGrid>();
+    private Context context;
 
-    public GridRecyclerAdapter(){
+    public GridRecyclerAdapter(Context context){
+        this.context = context;
     }
 
-    public GridRecyclerAdapter(ArrayList<DocGrid> arrHorList){
+    public GridRecyclerAdapter(Context context, ArrayList<DocGrid> arrHorList){
         this.arrGridItem = arrHorList;
+        this.context = context;
     }
 
     @Override
@@ -35,10 +47,23 @@ public class GridRecyclerAdapter extends RecyclerView.Adapter<GridRecyclerAdapte
         return recyclerViewHolder;
     }
 
+    public static float pxFromDp(final Context context, final float dp) {
+        return dp * context.getResources().getDisplayMetrics().density;
+    }
+
     @Override
     public void onBindViewHolder(GridRecyclerAdapter.RecyclerViewHolder holder, int position) {
         final DocGrid docGrid = arrGridItem.get(position);
-        holder.imageViewThumb.setImageResource(docGrid.getImageID());
+
+        DisplayImageOptions displayImageOptions = new DisplayImageOptions.Builder()
+                .cacheInMemory(true)
+                .displayer(new RoundedBitmapDisplayer(10))
+                .imageScaleType(ImageScaleType.IN_SAMPLE_POWER_OF_2)
+                .build();
+        ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(context).defaultDisplayImageOptions(displayImageOptions).build();
+        ImageLoader.getInstance().init(config);
+        ImageLoader.getInstance().displayImage(docGrid.getImageURL(), holder.imageViewThumb);
+
         holder.textViewChannelName.setText(docGrid.getChannelName());
     }
 

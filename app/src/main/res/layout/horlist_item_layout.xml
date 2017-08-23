@@ -4,9 +4,10 @@
     android:layout_height="wrap_content" android:layout_margin="5dp" >
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"/>
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:src="@drawable/horlist_item_logo"/>
 
     <TextView
         android:id="@+id/textView"
